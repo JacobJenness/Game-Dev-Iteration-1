@@ -2,44 +2,67 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class TreasureBarHandler : MonoBehaviour
 {
-    private static Image TreasureBarImage;
+    [SerializeField] private TMP_Text treasure;
+    [SerializeField] private GameObject gameOver;
 
-    /// Initialize the variable
     private void Start()
     {
-        TreasureBarImage = GetComponent<Image>();
+        SetTreasureValue(100);
     }
 
-    // Sets the treasure bar value
-    // 'value' should be between 0 and 1
-    public static void SetTreasureBarValue(float value)
+    public void Update()
     {
-        TreasureBarImage.fillAmount = value;
-        if (TreasureBarImage.fillAmount < 0.2f)
+        SetTreasureValue(GetTreasureValue() - 1);
+    }
+
+    // Takes an input as positive or negative and updates the value of treasure
+    public void SetTreasureValue(int value)
+    {
+        int currentValue = GetTreasureValue();
+        // Possibly implement sanity checks here
+        currentValue += value;
+
+        if (currentValue <= 20)
         {
-            SetTreasureBarColor(Color.red);
+            SetTreasureColor(Color.red);
         }
-        else if (TreasureBarImage.fillAmount < 0.4f)
+        else if (currentValue <= 50)
         {
-            SetTreasureBarColor(Color.yellow);
+            SetTreasureColor(Color.yellow);
         }
         else
         {
-            SetTreasureBarColor(Color.green);
+            SetTreasureColor(Color.green);
+        }
+
+        // If health is 0 or less, it's game over
+        if (currentValue <= 0)
+        {
+            gameOver.SetActive(true);
         }
     }
 
-    public static float GetTreasureBarValue()
+    public int GetTreasureValue()
     {
-        return TreasureBarImage.fillAmount;
+        string tmp = treasure.GetParsedText();
+        try
+        {
+            int i = int.Parse(tmp);
+            return i;
+        } catch
+        {
+            // This probably throws an error but idk
+            throw;
+        }
     }
 
-    // Sets the treasure bar color
-    public static void SetTreasureBarColor(Color treasureColor)
+    // Sets the treasure color
+    public void SetTreasureColor(Color treasureColor)
     {
-        TreasureBarImage.color = treasureColor;
+        treasure.color = treasureColor;
     }
 }
