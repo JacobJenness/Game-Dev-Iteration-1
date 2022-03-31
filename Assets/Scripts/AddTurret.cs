@@ -33,7 +33,7 @@ public class AddTurret : MonoBehaviour
         while(!isTurretPlaced) {
             Vector3 mousePos = Input.mousePosition;
             mousePos.z = 2;
-            Debug.Log("Mouse Position: " + mousePos);
+            //Debug.Log("Mouse Position: " + mousePos);
             Vector3 worldPos = Camera.main.ScreenToWorldPoint(mousePos);
             //Debug.Log("World Position Updated: " + worldPos);
             // allowedArea.OverlapPoint(worldPos)
