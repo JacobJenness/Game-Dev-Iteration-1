@@ -3,7 +3,9 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - Waypoints
+  - Enemy
   layers:
   - Default
   - TransparentFX
@@ -46,7 +48,4 @@ TagManager:
     locked: 0
   - name: Top
     uniqueID: 1492244475
-    locked: 0
-  - name: UI
-    uniqueID: 2902142535
     locked: 0
