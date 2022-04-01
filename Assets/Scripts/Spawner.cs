@@ -9,7 +9,7 @@ public class Spawner : MonoBehaviour
     public float timeToSpawn;
     private float currentTimeToSpawn;
 
-    public int maxEnemyCount;
+    public int maxEnemyCount = 1000;
     private int enemyCount;
 
     void Start()

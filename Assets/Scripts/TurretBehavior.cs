@@ -10,27 +10,36 @@ public class TurretBehavior : MonoBehaviour
     [SerializeField] private float turnSpeed;
     [SerializeField] private float range;
     [SerializeField] private CircleCollider2D rangeCollider;
+    [SerializeField] private Transform bulletTransform;
     private GameObject target;
+    private float lastShot = 0;
 
     void Awake() {
         rangeCollider.radius = range;
-        Debug.Log("Turret Range: " + range);
+        //Debug.Log("Turret Range: " + range);
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(target != null) {
-            TurnToTarget(target.transform.position);
+        //FindClosestEnemy();
+        // if(target != null) {
+        //     TurnToTarget(Input.mousePosition);
+        //     Shoot();
+        // }
+        TurnToTarget(Input.mousePosition);
+        if (Input.GetMouseButton(0) && (lastShot > fireRate)) {
             Shoot();
+            lastShot = 0;
         }
+        lastShot += Time.deltaTime;
     }
 
     private void TurnToTarget(Vector3 targetPosition) {
         // Turn the turret towrds the mouse (or a target)
         // Vector3 mousePosition = Input.mousePosition;
         targetPosition.z = 2;
-        Debug.Log("Target Position: " + targetPosition);
+        //Debug.Log("Target Position: " + targetPosition);
         Vector3 worldPosition = Camera.main.ScreenToWorldPoint(targetPosition);
         Vector2 direction = worldPosition - transform.position;
         float angle = Vector2.SignedAngle(Vector2.up, direction);
@@ -38,24 +47,24 @@ public class TurretBehavior : MonoBehaviour
         transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.Euler(targetRotation), turnSpeed * Time.deltaTime);
     }
 
-    // function to set target to first enemy that enters a radius of the turret
-    private void OnTriggerEnter2D(Collider2D other) {
-        if (other.tag == "Enemy") {
-            Debug.Log("Enemy entered turret");
-            target = other.gameObject;
-        }
-    }
-
-    // function to set target to null when enemy leaves a radius of the turret
-    private void OnTriggerExit2D(Collider2D other) {
-        if (other.tag == "Enemy") {
-            Debug.Log("Enemy left turret");
-            target = null;
-        }
-    }
-
     private void Shoot() {
-        Debug.Log("Shoot");
-        Instantiate(bullet, bulletSpawn.position, bulletSpawn.rotation);
+        GameObject newBullet = Instantiate(bullet);
+        //Vector3 newBulletPosition = new Vector3(bulletSpawn.transform.position.x, bulletSpawn.transform.position.y, 0);
+        // Set the bullet's position
+        newBullet.transform.SetPositionAndRotation(bulletSpawn.transform.position, bulletSpawn.rotation);
+    }
+
+    private GameObject FindClosestEnemy() {
+        GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
+        GameObject closestEnemy = null;
+        float closestDistance = range;
+        foreach (GameObject enemy in enemies) {
+            float distanceToEnemy = Vector2.Distance(transform.position, enemy.transform.position);
+            if (distanceToEnemy < closestDistance) {
+                closestDistance = distanceToEnemy;
+                closestEnemy = enemy;
+            }
+        }
+        return closestEnemy;
     }
 }

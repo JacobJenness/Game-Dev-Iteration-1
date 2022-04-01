@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: -4981925568631297475}
   - component: {fileID: 6338546292700141933}
   m_Layer: 0
-  m_Name: Turret Prefab
+  m_Name: Turret_Prefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -73,7 +73,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1492244475
   m_SortingLayer: 2
-  m_SortingOrder: 0
+  m_SortingOrder: 4
   m_Sprite: {fileID: 2980149248268456660, guid: 6db7d896f0a54a6458b2266d9a9163f6, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -97,9 +97,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1d7f18fdd72ed1b4eb52272b06392fc7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  bullet: {fileID: 6530606880771098697, guid: 12e9465c7c180454997676550d1e60ba, type: 3}
+  bulletSpawn: {fileID: 7531638463110518528}
+  fireRate: 1
   turnSpeed: 360
-  range: 7
+  range: 20
   rangeCollider: {fileID: 6338546292700141933}
+  bulletTransform: {fileID: 0}
 --- !u!58 &6338546292700141933
 CircleCollider2D:
   m_ObjectHideFlags: 0

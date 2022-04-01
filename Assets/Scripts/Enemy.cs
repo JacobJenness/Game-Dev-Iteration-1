@@ -33,5 +33,30 @@ public class Enemy : MonoBehaviour
             }
             
         }
+
+        // CheckForHit();
+        
+    }
+
+    private void CheckForHit(){
+        Collider[] hitColliders = Physics.OverlapSphere(transform.position, 10f);
+        foreach (Collider c in hitColliders)
+        {
+            if (c.tag == "Bullet")
+            {
+                Debug.Log("Enemy hit");
+                Destroy(gameObject);
+                Destroy(c.gameObject);
+            }
+        }
+    }
+
+    private void OnTriggerEnter2D (Collider2D other)
+    {
+        if(other.gameObject.CompareTag("Bullet")){
+            Debug.Log("Enemy hit");
+            Destroy(gameObject);
+            Destroy(other.gameObject);
+        }
     }
 }
